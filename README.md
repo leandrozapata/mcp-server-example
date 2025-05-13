@@ -1,6 +1,6 @@
 # MCP Task Manager Server
 
-A simple task management server built using the Model Context Protocol (MCP). This server allows you to create, list, and complete tasks through MCP tools.
+A simple task management server built using the Model Context Protocol (MCP). This server allows you to create, list, and complete tasks through MCP tools and HTTP API endpoints.
 
 ## Features
 
@@ -8,6 +8,8 @@ A simple task management server built using the Model Context Protocol (MCP). Th
 - List all tasks
 - Mark tasks as completed
 - In-memory storage (tasks are lost when the server restarts)
+- HTTP API for integration with web applications
+- MCP compatibility for AI assistants
 
 ## Installation
 
@@ -22,8 +24,62 @@ npm install
 # Build the TypeScript code
 npm run build
 
-# Run the server
+# Run the MCP server (stdio mode for AI assistants)
 npm start
+
+# Run the HTTP server (for web applications)
+npm run http
+```
+
+## HTTP API Endpoints
+
+### Create a Task
+
+```
+POST /api/tasks
+```
+
+Request body:
+```json
+{
+  "title": "Task title",
+  "description": "Task description"
+}
+```
+
+### List All Tasks
+
+```
+GET /api/tasks?status=[all|pending|completed]
+```
+
+### List Pending Tasks
+
+```
+GET /api/tasks/pending
+```
+
+### Complete a Task
+
+```
+PATCH /api/tasks/:id/complete
+```
+
+### Execute MCP Tool Directly
+
+```
+POST /api/mcp/execute
+```
+
+Request body:
+```json
+{
+  "tool": "tool-name",
+  "params": {
+    "param1": "value1",
+    "param2": "value2"
+  }
+}
 ```
 
 ## Available Tools
@@ -51,7 +107,19 @@ Parameters:
 
 ## Connecting to the Server
 
-This MCP server runs on stdio, making it compatible with MCP clients like Claude for Desktop.
+### MCP Mode
+
+The MCP server runs on stdio, making it compatible with MCP clients like Claude for Desktop.
+
+### HTTP Mode
+
+The HTTP server runs on port 3000 by default. You can access it at `http://localhost:3000`.
+
+You can customize the port by setting the `PORT` environment variable:  
+
+```bash
+PORT=8080 npm run http
+```
 
 ## Example Usage
 

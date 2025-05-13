@@ -12,8 +12,11 @@ interface Task {
   createdAt: Date;
 }
 
-// In-memory task storage
-const tasks: Map<string, Task> = new Map();
+// In-memory task storage - exported to be shared with HTTP server
+export const tasks: Map<string, Task> = new Map();
+
+// Check if this module is being imported or run directly
+const isMainModule = import.meta.url === `file://${process.argv[1]}`;
 
 // Helper function to generate a unique ID
 function generateId(): string {
@@ -215,7 +218,14 @@ async function main() {
   console.error("Task Manager MCP Server running on stdio");
 }
 
-main().catch((error) => {
-  console.error("Fatal error in main():", error);
-  process.exit(1);
-});
+// Only run the server if this file is being executed directly
+if (isMainModule) {
+  // Run the server
+  main().catch((error) => {
+    console.error("Fatal error in main():", error);
+    process.exit(1);
+  });
+}
+
+// Export the server for potential use in other modules
+export { server };

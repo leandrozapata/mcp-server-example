@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "../../agent-server-example"
+        },
+        {
+            "path": "../../agent-client-example"
+        },
+        {
+            "path": ".."
+        }
+    ]
+}
